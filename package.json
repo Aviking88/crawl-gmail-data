@@ -1,0 +1,11 @@
+{
+  "name": "crawl-gmail-data",
+  "version": "1.0.0",
+  "description": "Its demo application that includes the basic uses of inboxsdk.js for communication with gmail and helps to crawl gmail informations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Avinash Maurya",
+  "license": "ISC"
+}
