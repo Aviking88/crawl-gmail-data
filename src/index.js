@@ -4,7 +4,7 @@
 
 const container = setupContainer();
 const actionButton = container.getElementsByClassName(COMPONENTS.ActionButtons)[0];
-const ResultArea = container.getElementsByClassName(COMPONENTS.ResultArea)[0];
+const resultArea = container.getElementsByClassName(COMPONENTS.ResultArea)[0];
 let allRecipients = [];
 let threadList = [];
 let promiseList = [];
@@ -12,7 +12,7 @@ let promiseList = [];
 InboxSDK.load(2, APP_ID).then(sdk => {
   console.log("sdk", sdk);
   sdk.Conversations.registerThreadViewHandler(threadView => {
-    //clear container
+    // clear container and reset data
     resetData();
     resetContainer(container);
     actionButton.appendChild(getActionButtons(buttonClickHandler));
@@ -31,7 +31,6 @@ InboxSDK.load(2, APP_ID).then(sdk => {
     });
 
     Promise.all(promiseList).then(values => {
-      console.log(values);
       threadList = [...values];
       processThreadData(threadList);
 
@@ -41,42 +40,54 @@ InboxSDK.load(2, APP_ID).then(sdk => {
   });
 });
 
+/**
+ * Resets all the variables to initial state.
+ */
 function resetData() {
   allRecipients = [];
   threadList = [];
   promiseList = [];
 }
 
+/**
+ * This processes thread data
+ * ie: removes duplicate emails.
+ * @param {*} threadList
+ */
 function processThreadData(threadList) {
-  let i = 1;
   let recipientSet = new Set([]);
-  let allRecpt = [];
+  allRecipients = [];
   threadList.flat().forEach(thread => {
     if (!recipientSet.has(thread.name)) {
       recipientSet.add(thread.name);
-      allRecpt.push(thread);
+      allRecipients.push(thread);
     }
   });
-  allRecipients = allRecpt;
 }
 
+/**
+ * Handles click actions triggered from action button *
+ * @param {*} type This is BUTTON_TYPE
+ */
 function buttonClickHandler(type) {
-  let element = container.getElementsByClassName(COMPONENTS.ResultArea)[0];
-  clearChildrens(element);
+  clearChildrens(resultArea);
 
   switch (type) {
     case BUTTON_TYPE.All:
-      element.appendChild(createTable(allRecipients));
+      resultArea.appendChild(createTable(allRecipients));
       break;
     case BUTTON_TYPE.ThreadView:
       threadList.forEach(thread => {
-        element.appendChild(createTable(thread));
+        resultArea.appendChild(createTable(thread));
       });
       break;
   }
 }
 
+/**
+ * This resets container
+ */
 function resetContainer() {
   clearChildrens(actionButton);
-  clearChildrens(ResultArea);
+  clearChildrens(resultArea);
 }

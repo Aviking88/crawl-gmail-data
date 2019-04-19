@@ -1,4 +1,8 @@
 /**
+ * This file includes all reusable methods.
+ */
+
+/**
  * This method setups sidebar container.
  * @returns HTMLElement
  * @param {*} params
@@ -16,8 +20,7 @@ function setupContainer() {
     height: auto;
   `,
   });
-
-  containerBody.innerHTML = "<h1>Message View</h1>";
+  containerBody.innerHTML = "<h1>Crawled Data</h1>";
 
   // Action Buttons
   containerBody.appendChild(createElement({ elementType: "div", elementClass: COMPONENTS.ActionButtons }));
@@ -78,7 +81,7 @@ function getActionButtons(ActionHandler) {
   `,
   });
 
-  // Button for All
+  // Button for All view
   const all = createElement({
     elementType: "button",
     elementClass: BUTTON_CLASSES.ButtonAll,
@@ -88,7 +91,7 @@ function getActionButtons(ActionHandler) {
   all.addEventListener("click", () => ActionHandler(BUTTON_TYPE.All));
   buttonsContainer.appendChild(all);
 
-  // Button for ThreadWise
+  // Button for ThreadWise view
   const cc = createElement({
     elementType: "button",
     elementClass: BUTTON_CLASSES.ButtonThreadView,
